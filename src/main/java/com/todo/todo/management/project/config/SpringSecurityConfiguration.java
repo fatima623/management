@@ -37,6 +37,7 @@ public class SpringSecurityConfiguration {
 //                    authorize.requestMatchers(HttpMethod.PATCH,"/api/**").hasAnyRole("ADMIN","USER");
                     //it is called by anyone publically without any credientials
  //                   authorize.requestMatchers(HttpMethod.GET,"/api/**").permitAll();
+                    authorize.requestMatchers("/api/auth/**").permitAll();
                     authorize.anyRequest().authenticated();
                 }).httpBasic(Customizer.withDefaults());
         return http.build();
