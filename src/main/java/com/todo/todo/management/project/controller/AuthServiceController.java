@@ -1,5 +1,6 @@
 package com.todo.todo.management.project.controller;
 
+import com.todo.todo.management.project.dto.LoginDto;
 import com.todo.todo.management.project.dto.RegisterDto;
 import com.todo.todo.management.project.service.AuthService;
 import lombok.AllArgsConstructor;
@@ -17,5 +18,9 @@ public class AuthServiceController {
     @PostMapping("/register")
     public ResponseEntity<String>Register(@RequestBody RegisterDto registerDto) {
         return new  ResponseEntity(authService.Register(registerDto), HttpStatus.CREATED);
+    }
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+        return new ResponseEntity(authService.Login(loginDto), HttpStatus.OK);
     }
 }

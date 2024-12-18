@@ -10,6 +10,11 @@ import com.todo.todo.management.project.repository.UserRepo;
 import com.todo.todo.management.project.service.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +27,7 @@ import java.util.Set;
 public class AuthServiceImpl implements AuthService {
     private UserRepo userRepo;
     private RoleRepo roleRepo;
+    AuthenticationManager authenticationManager;
 private PasswordEncoder passwordEncoder;
     @Override
     public String Register(RegisterDto registerDto) {
@@ -50,9 +56,11 @@ private PasswordEncoder passwordEncoder;
 
     @Override
     public String Login(LoginDto loginDto) {
-        if(userRepo.existsByUsername(loginDto.getUsername())) {
-
-        }
-        return "";
+      Authentication authentication= authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                loginDto.getUsernameoremail(),
+                loginDto.getPassword()
+        ));
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        return "User successfully logged in....";
     }
 }
